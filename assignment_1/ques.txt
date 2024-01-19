@@ -1,0 +1,23 @@
+
+CS 5343 Algorithm analysis and Data structures 
+Assignment 1
+
+Due: 11:59 PM, Wed, Jan 24 (on elearning).
+
+1. In binary search, a target element is searched in a sorted array using divide and conquer approach. If the element is found, the search returns true. Otherwise it returns false. In this assignment you will write code for a variant of the binary search. Your code should return index i such that A[i] <= t < A[i+i], where t is the element searched in sorted array A. Note that the elements in the array may contain duplicates.
+
+Input: Sorted Array of integers A[0,…,n-1] and target t 
+Output: return index i such that A[i] <= t < A[i+1]
+		// If t < arr[0], return -1.  If t >= arr[n-1], return n-1.  n is A.length()
+		
+public static int bsearchv(int[] A, int t){
+	
+	// complete the code
+
+}
+
+
+
+Optional work (no need to submit)
+
+2. Implement the above code in Java and test it with various input
