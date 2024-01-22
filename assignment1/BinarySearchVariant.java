@@ -1,6 +1,7 @@
-package solution;
+package assignment1;
 
-public class BinarySearchVariant {
+class BinarySearchVariant {
+    BinarySearchVariant() {}
     public static int bsearchv(int[] A, int t) {
         int n = A.length;
         int l = 0;

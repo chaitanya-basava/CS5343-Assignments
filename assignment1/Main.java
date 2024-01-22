@@ -1,7 +1,6 @@
-package assignment_1;
+package assignment1;
 
 import java.io.*;
-import solution.BinarySearchVariant;
 
 class Main {
     public static void main(String[] args) {
