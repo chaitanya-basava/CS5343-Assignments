@@ -3,5 +3,5 @@ This repo contains the solutions  for the assignments of CS5343 Algorithm Analys
 
 ## Execute assignment
 Run the following commands to execute each assignment
-1. `javac -sourcepath ./assignment_{num}/ -d ./classes/ ./assignment_{num}/Main.java`
-2. `java -cp classes assignment_{num}.Main {args}`
+1. `javac -sourcepath ./ -d ./classes/ ./assignment{num}/Main.java`
+2. `java -cp classes assignment{num}.Main {args}`
