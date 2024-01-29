@@ -1,0 +1,23 @@
+
+CS 5343 Algorithm analysis and Data structures 
+Assignment 2
+
+
+Due: 11:59 PM, Fri, Feb 2 (on elearning).
+
+1. Analyze the running time of insertion sort on an array of size n.
+   Show detailed analysis of the steps and express the final answer
+   using order notation. Assume all basic operations take unit time (c = 1).
+
+   void insertionSort(int[] arr) {   // Sort arr[0..arr.length-1].
+       for(int i=1; i<arr.length; i++) {
+           int key = arr[i];
+           int j = i-1;
+           // Insert key into the right spot
+           while (j >= 0 && arr[j] > key) {
+              arr[j+1] = arr[j];
+              j = j-1;
+           }
+           arr[j+1] = key;
+       }
+   }

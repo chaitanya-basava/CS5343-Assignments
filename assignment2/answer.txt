@@ -1,0 +1,26 @@
+     void insertionSort(int[] arr) {   // Sort arr[0..arr.length-1].
+1.       for(int i=1; i<arr.length; i++) {
+2.           int key = arr[i];
+3.           int j = i-1;
+4.           while (j >= 0 && arr[j] > key) {
+5.              arr[j+1] = arr[j];
+6.              j = j-1;
+             }
+7.           arr[j+1] = key;
+         }
+     }
+
+line 1 - c + c(n + 1) + cn
+line 2 - cn
+line 3 - cn
+line 4,5,6 - sum for i = 1 to n-1 3c(i) [in worst case while loop can go for i iterations each]
+line 7 - cn
+
+2c + 5cn + 3c(1 + 2 + ... + n-2 + n-1)
+2c + 5cn + 3c(n-1)n/2
+2c + 3.5cn + 1.5c(n*n)
+~1.5c(n*n) = O(n*n)
+
+line 4,5,6 in best case can go for 0 iterations each => best case time complexity = sum for i = 1 to n-1 3c(0)
+in this case RT becomes = 2c + 5cn
+~5cn = big_omega(n)
