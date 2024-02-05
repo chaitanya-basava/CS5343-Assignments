@@ -1,0 +1,19 @@
+CS 5343 Algorithm analysis and data structures
+Assignment 3
+
+Due: Friday, Feb 9:  11:59 PM (on elearning).
+
+
+1. Write a proof by induction to show that power(x, n) correctly returns x^n.
+   power(x, n):  // Precondition: x > 1, int n >= 0.  Assume no overflows.
+      if n = 0 then
+	 return 1
+      else
+	 s = power(x*x, n/2)
+	 return n%2==0 ? s : s*x
+
+2. Prove by induction that the solution to the Merge sort recurrence,given below, is O(nlogn).
+	T(n) <= 2T(n/2) + n, for n>1,  T(1) = 1.
+
+   Write the proof by showing that T(n) <= anlogn + bn, for some constants a and b,
+   and derive the values of a and b from the proof.
