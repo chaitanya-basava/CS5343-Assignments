@@ -1,0 +1,22 @@
+CS 3345 Algorithm analysis and data structures
+Assignment 4
+
+Due: Fri, Feb 16:  11:59 PM (on elearning).
+
+1. Complete the methods next() and remove() in SinglyLinkedList.java. File is in the shared folder. To learn more about iterator see the reference below.
+https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html
+
+Practice problems (no need to submit):
+
+2. Complete method unzip() in SinglyLinkedList.java
+
+3. What is the running time of the following two programs on a linked list with n elements:
+
+   (a) for(x: list) { print x }  /* using the iterator */
+	/* same as:  it = list.iterator();  while(it.hasNext()) { print it.next() } */
+
+	Ans: this takes O(n) time
+
+   (b) for(i=0; i<list.size(); i++) { print list.get(i) }
+
+   Ans: this takes O(n^2) time
