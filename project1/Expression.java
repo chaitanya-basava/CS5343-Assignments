@@ -1,7 +1,7 @@
 // Starter code for Project 1
 
 // Change this to your NetId
-package dsa;
+package sxb220302;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -64,13 +64,13 @@ public class Expression {
         Token result;
         switch(tok) {
             case "+":
-                result = new Token(TokenType.PLUS, 0, tok);
+                result = new Token(TokenType.PLUS, 0, tok); // + and - get the lowest priority = 0
                 break;
             case "-":
                 result = new Token(TokenType.MINUS, 0, tok);
                 break;
             case "*":
-                result = new Token(TokenType.TIMES, 1, tok);
+                result = new Token(TokenType.TIMES, 1, tok); // *, / and % get a priority = 1
                 break;
             case "/":
                 result = new Token(TokenType.DIV, 1, tok);
@@ -79,10 +79,10 @@ public class Expression {
                 result = new Token(TokenType.MOD, 1, tok);
                 break;
             case "^":
-                result = new Token(TokenType.POWER, 2, tok);
+                result = new Token(TokenType.POWER, 2, tok); // ^ gets the highest priority = 2
                 break;
             case "(":
-                result = new Token(TokenType.OPEN, -1, tok);
+                result = new Token(TokenType.OPEN, -1, tok); // ( and ) have no priority as they are not operators
                 break;
             case ")":
                 result = new Token(TokenType.CLOSE, -1, tok);
@@ -95,6 +95,9 @@ public class Expression {
         return result;
     }
 
+    // method used for evaluating a single operator
+    // it takes in a operator and two operands and
+    // returns the evaluated result after performing the corresponding operation
     private static long evaluateOperator(Token operator, long operand1, long operand2) {
         switch (operator.toString()) {
             case "+":
@@ -110,6 +113,7 @@ public class Expression {
             case "^":
                 return (long) Math.pow(operand1, operand2);
             default:
+                // if unknown operator then returns 0
                 return 0;
         }
     }
@@ -132,13 +136,19 @@ public class Expression {
 
     // Given a list of tokens corresponding to an infix expression,
     // return the expression tree corresponding to it.
+    // follows a similar logic as infixToPostfix method
     public static Expression infixToExpression(List<Token> exp) {
         Deque<Expression> expressionStack = new ArrayDeque<>();
         Deque<Token> stack = new ArrayDeque<>();
 
         for(Token token: exp) {
-            if(token.isOperand()) expressionStack.push(new Expression(token));
-            else if(token.toString().equals("(")) stack.push(token);
+            if(token.isOperand()) {
+                // token is a operand
+                expressionStack.push(new Expression(token));
+            }
+            else if(token.toString().equals("(")) {
+                stack.push(token);
+            }
             else if(token.toString().equals(")")) {
                 while (!stack.peek().toString().equals("(")) pushToStack(stack.pop(), expressionStack);
                 stack.pop();
@@ -156,9 +166,10 @@ public class Expression {
         return expressionStack.pop();
     }
 
+    // method to make a new Expression for a operator and push into expression stack
     private static void pushToStack(Token token, Deque<Expression> expressionStack) {
-        Expression right = expressionStack.pop();
-        Expression left = expressionStack.pop();
+        Expression right = expressionStack.pop(); // first Expression in the stack will be the right expression
+        Expression left = expressionStack.pop(); // second Expression in the stack will be the left expression
         expressionStack.push(new Expression(token, left, right));
     }
 
@@ -166,50 +177,69 @@ public class Expression {
     // return its equivalent postfix expression as a list of tokens.
     public static List<Token> infixToPostfix(List<Token> exp) {
         List<Token> output = new ArrayList<>();
-        Deque<Token> stack = new ArrayDeque<>();
+        Deque<Token> operatorStack = new ArrayDeque<>(); // stack to hold operators
 
         for(Token token: exp) {
-            if(token.isOperand()) output.add(token);
-            else if(token.toString().equals("(")) stack.push(token);
+            if(token.isOperand()) {
+                // token is operand
+                output.add(token);
+            }
+            else if(token.toString().equals("(")) operatorStack.push(token);
             else if(token.toString().equals(")")) {
-                while (!stack.peek().toString().equals("(")) output.add(stack.pop());
-                stack.pop();
+                // token is ')', so pop from stack and add to output List untill '(' is encountered
+                while (!operatorStack.peek().toString().equals("(")) output.add(operatorStack.pop());
+                operatorStack.pop(); // pop the '('
             } else {
-                while(!stack.isEmpty() && !stack.peek().toString().equals("(") &&
-                        stack.peek().priority >= token.priority) {
-                    output.add(stack.pop());
+                // token is some operator, pop from stack and add to output if
+                // 1. top of stack isn't '('
+                // 2. top of stack has higher or equal priority (since left assiciative)
+                while(!operatorStack.isEmpty() && !operatorStack.peek().toString().equals("(") &&
+                        operatorStack.peek().priority >= token.priority) {
+                    output.add(operatorStack.pop());
                 }
-                stack.push(token);
+                operatorStack.push(token); // push the new operator into stack
             }
         }
 
-        while(!stack.isEmpty()) output.add(stack.pop());
+        // add remaining operators in the stack into output
+        while(!operatorStack.isEmpty()) output.add(operatorStack.pop());
         return output;
     }
 
     // Given a postfix expression, evaluate it and return its value.
     public static long evaluatePostfix(List<Token> exp) {
-        Deque<Long> stack = new ArrayDeque<>();
+        Deque<Long> operandStack = new ArrayDeque<>(); // stack to hold operands
 
         for(Token token: exp) {
-            if(token.isOperand()) stack.push(token.getValue());
+            if(token.isOperand()) {
+                operandStack.push(token.getValue());
+            }
             else {
-                long operand1 = stack.pop();
-                long operand2 = stack.pop();
-                stack.push(evaluateOperator(token, operand2, operand1));
+                long operand1 = operandStack.pop(); // first element in the stack is the right operand
+                long operand2 = operandStack.pop(); // second element in the stack is the left operand
+                operandStack.push(evaluateOperator(token, operand2, operand1)); // evaluate and push result into stack
             }
         }
 
-        return stack.pop();
+        return operandStack.pop(); // finally operand stack will hold a single value
     }
 
     // Given an expression tree, evaluate it and return its value.
+    // performs inorder traversal of the tree and returns the result
     public static long evaluateExpression(Expression tree) {
         if(tree == null) return 0;
-        else if(tree.left == null && tree.right == null) return tree.element.getValue();
+        else if(tree.left == null && tree.right == null) {
+            // if its a leaf node, then its a operand
+            return tree.element.getValue();
+        }
 
+        // evaluation of the left subtree
         long left = evaluateExpression(tree.left);
+
+        // evaluation of the right subtree
         long right = evaluateExpression(tree.right);
+
+        // return evaluation of the current subtree
         return evaluateOperator(tree.element, left, right);
     }
 
