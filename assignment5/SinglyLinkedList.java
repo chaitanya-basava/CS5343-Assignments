@@ -143,6 +143,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 
     // method to reverse the Linked List
     public void reverse() {
+        this.tail = this.head.next;
         reverseUtil(null, this.head.next);
     }
 
