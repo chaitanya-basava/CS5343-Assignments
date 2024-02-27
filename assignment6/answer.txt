@@ -1,0 +1,39 @@
+we can make use of the fact that the given array is sorted for preserving the order constraints of a BST. We can
+divide the array into 2 parts at the middle, the middle element will become the root of that subtree and the left part
+of the array will become the left subtree and the right part will become the right subtree respectively. Then the same
+logic can be recursed for building the left and right subtrees.
+
+The equal division of the array at the middle makes sure that the height of the BST remains balanced at every node in
+the tree, as equal number of elements will be present in both the children. The base case would be when the sub array
+will become empty, in which case we can return a None.
+
+Pseudocode:
+
+Tree arrayToTree(int[] arr, int p, int r) {
+    if(p > r) return None;
+
+    int mid = p + (r - p) / 2;
+    Tree node = new Tree(
+        arr[mid],
+        arrayToTree(arr, p, mid-1),
+        arrayToTree(arr, mid+1, r)
+    );
+}
+
+BinarySearchTree arrayToBST(int[] arr) {
+    Tree root = arrayToTree(arr, 0, arr.length-1);
+    return BinarySearchTree(root, arr.length);
+}
+
+Analysis:
+
+This is similar to divide and conquer, we divide at the mid, build the left and right subtrees, and combine then into
+another tree.
+
+It will take T(n/2) to build the left and right subtrees respectively, and O(1) time to combine them.
+
+recurrence relation:
+T(n) = 2T(n/2) + O(1)
+
+from masters theorem, a = 2, b = 2 and k = 0 => k = log a base b, which is case 2.
+T(n) = O(logn)

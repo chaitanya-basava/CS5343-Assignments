@@ -1,0 +1,48 @@
+
+CS 5343 Algorithm analysis and data structures
+Assignment 6
+
+Due: Friday, March 1st :  11:59 PM (on elearning).
+
+This is not a programming assignment.  Write code or pseudocode.
+
+   Let the BinarySearchTree class be defined as follows:
+
+   class BinarySearchTree {
+	class Tree {
+		int element;
+		Tree left, right;
+		Tree(int x, Tree l, Tree r) {
+			element = x;
+			left = l;
+			right = r;
+		}
+	}
+
+	Tree root;  // root of binary search tree
+	int size;   // number of elements in the BST
+
+	BinarySearchTree() {  // constructor
+		root = null;
+		size = 0;
+	}
+
+	BinarySearchTree(Tree t, int s) {  // constructor
+		root = t;
+		size = s;
+	}
+   }
+
+1. Given a sorted array of integers, write an algorithm to build a height-balanced
+   binary search tree with its elements.  Analyze the running time of the algorithm.
+   Recursive algorithms can be solved using the Master method.
+
+   The functions that you need to write are the following.
+
+	// Build a height-balanced BST from arr[0..arr.length-1]
+        BinarySearchTree arrayToBST(int[] arr) { /* To do */ }
+
+	// Helper function to build a tree from a subarray
+	// Recursive algorithm that builds a tree recursively from the elements of arr[p..r].
+	// Returned tree is balanced, and satisfies the order constraints of a BST.
+	Tree arrayToTree(int[] arr, int p, int r) { /* To do */ }
