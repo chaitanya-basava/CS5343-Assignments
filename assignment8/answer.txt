@@ -1,0 +1,23 @@
+verify() {
+    (flag, min, max, height) = verifyAVL(root)
+    return flag;
+}
+
+
+(boolean, int, int, int) verifyAVL(Entry node) {
+    // MIN and MAX are limits of corresponding generic
+    if(root == null) return (true, MAX, MIN, 0);
+
+    (lflag, lmin, lmax, lheight) = verify(root.left);
+    (rflag, rmin, rmax, rheight) = verify(root.right);
+
+    boolean flag = lflag && rflag && (lmax < root.element && root.val < rmin) && Math.abs(lheight - rheight) <= 1;
+
+    int correctHeight = Math.max(lheight, rheight) + 1;
+
+    return (flag, min(lmin, rmin, root.element), max(lmax, rmax, root.element), correctHeight);
+}
+
+This implementation follows post order traversal logic, where it first checks if the left and right subtrees are
+valid AVL trees and uses this info to valid if the current subtree is valid. Similar to post order traversal the run time
+of this method is also O(n), as each node is touched upon once.

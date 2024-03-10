@@ -1,0 +1,38 @@
+
+CS 5343  Algorithm analysis and Data structures
+
+Assignment 8
+
+
+Due: 11:59 AM, Friday, March 22 (on elearning).
+
+This is not a programming assignment.  Write code or pseudocode.
+
+1.
+Binary search trees and AVL trees are declared as follows:
+class BST<T> {
+    class Entry {
+	T element;
+	Entry left, right;
+    }
+
+    Entry root;  // root node of BST
+    int size;    // number of elements in tree
+}
+
+class AVL<T> extends BST<T> {
+    class Entry extends BST.Entry {
+	int height;
+    }
+}
+
+Assume that both classes have been implemented.  Write a method of the
+AVL class that verifies if the tree is a valid AVL tree, that satisfies
+all conditions of BST, and the balancing conditions of AVL trees.
+In addition, do not trust the height value stored at the nodes, and
+heights of nodes have to be verified to be correct.  Make your code
+as efficient as possible.  State the running time of your algorithm.
+
+	boolean verify() {  /* To do */  }
+
+HINT: Look at the bottom-up solution to verify BST
