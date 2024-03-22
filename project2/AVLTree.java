@@ -17,19 +17,19 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
     }
 
     AVLTree() {
-	super();
+		super();
     }
 
 	// TO DO
     @Override
     public boolean add(T x) {
-	return super.add(x);
+		return super.add(x);
     }
 	
 	//Optional. Complete for extra credit
 	@Override
     public T remove(T x) {
-	return super.remove(x);
+		return super.remove(x);
     }
 	
 	/** TO DO
@@ -40,7 +40,7 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
 	 *  as efficient as possible. HINT: Look at the bottom-up solution to verify BST
 	*/
 	boolean verify(){
-	return false;
+		return false;
 	}
 }
 
