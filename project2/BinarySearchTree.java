@@ -17,12 +17,14 @@ import java.util.ArrayDeque;
 public class BinarySearchTree<T extends Comparable<? super T>> implements Iterable<T> {
     static class Entry<T> {
         T element;
+        int height;
         Entry<T> left, right;
 
         public Entry(T x, Entry<T> left, Entry<T> right) {
             this.element = x;
             this.left = left;
             this.right = right;
+            this.height = 0;
         }
     }
 
