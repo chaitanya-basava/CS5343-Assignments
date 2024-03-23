@@ -24,7 +24,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Iterab
             this.element = x;
             this.left = left;
             this.right = right;
-            this.height = 0;
+            this.height = 1;
         }
     }
 
@@ -42,7 +42,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Iterab
      * find method to start searching from root of the tree
      */
     public Entry<T> find(T x) {
-        this.pathStack.clear();
+        this.pathStack.clear(); // clearing out to add new path
         return find(root, x);
     }
 
@@ -54,22 +54,22 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Iterab
         else {
             while (true) {
                 int cmp = x.compareTo(node.element);
-                if(cmp == 0) {
+                if(cmp == 0) { // node with same value found
                     break;
                 }
                 else if (cmp < 0) {
-                    if(node.left == null) break;
+                    if(node.left == null) break; // no left child, current node is parent
                     this.pathStack.push(node);
                     node = node.left;
                 }
                 else {
-                    if(node.right == null) break;
+                    if(node.right == null) break; // no right child, current node is parent
                     this.pathStack.push(node);
                     node = node.right;
                 }
             }
         }
-        return node;
+        return node; // returns parent node (or) node with value x
     }
 
     /**
@@ -86,19 +86,20 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Iterab
      * add method to add an element to the tree if not already present
      */
     public boolean add(T x) {
-        if(size==0) {
+        if(size==0) { // empty tree
             root = new Entry<T>(x, null, null);
         }
         else {
-            Entry<T> parent = find(x);
+            Entry<T> parent = find(x); // using find method to get parent of the new element
             int cmp = x.compareTo(parent.element);
-            if(cmp == 0) {
+            if(cmp == 0) { // if parent itself has same valid, its a duplicate
                 return false;
-            } else if(cmp < 0) {
+            } else if(cmp < 0) { // if new value is less than parent, add it to left
                 parent.left = new Entry<T>(x, null, null);
-            } else {
+            } else { // if new value is greater than parent, add it to right
                 parent.right = new Entry<T>(x, null, null);
             }
+            this.pathStack.push(parent); // adding parent to the path stack
         }
         size++;
         return true;
@@ -111,17 +112,18 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Iterab
         if(size == 0) {
             return null;
         }
-        Entry<T> node = find(x);
-        if(!node.element.equals(x)) {
+        Entry<T> node = find(x); // returns node with value x (if exists)
+        if(!node.element.equals(x)) { // element not found
             return null;
         }
         if(node.left == null || node.right == null) {
-            splice(node);
+            splice(node); // helper method to remove node with 0 or 1 child
         } else {
+            // node with 2 children
             this.pathStack.push(node);
-            Entry<T> minRight = this.find(node.right, x);
-            node.element = minRight.element;
-            splice(minRight);
+            Entry<T> minRight = this.find(node.right, x); // find minimum element in right subtree
+            node.element = minRight.element; // replace the current node with minimum element
+            splice(minRight); // remove the minimum element
         }
         size--;
         return x;
