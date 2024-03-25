@@ -91,6 +91,7 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
 	/**
 	 * helper method to get the balance factor of a node
 	 * helps identify which child is causing the imbalance
+	 * > 0 then left child is causing imbalance else right child
 	 */
 	private int balanceFactor(BinarySearchTree.Entry<T> node) {
 		return node == null ? 0 : height(node.left) - height(node.right);
