@@ -31,6 +31,7 @@ public class MDS {
         descriptionMap = new HashMap<>();
     }
 
+    // helper method to update the map of description to items containing it
     private void updateDescriptionMap(int id, java.util.List<Integer> list) {
         for(int i: list) {
             if(descriptionMap.containsKey(i)) {
@@ -43,6 +44,7 @@ public class MDS {
         }
     }
 
+    // helper method to remove the item from the map of description to items containing it
     private void removeFromDescriptionMap(int id, java.util.List<Integer> list) {
         for(int i: list) {
             if(descriptionMap.containsKey(i)) {
@@ -63,15 +65,19 @@ public class MDS {
         int val = 1;
         Object obj = new Object(id, price, new LinkedList<>(list));
 
+        // if id already exists, update the price and description of obj accordingly
         if(objects.containsKey(id)) {
             val = 0;
             obj = objects.get(id);
             obj.price = price;
             if(list != null && !list.isEmpty()) {
+                // remove the item from the description map if the list is not null or empty
                 this.removeFromDescriptionMap(id, obj.description);
                 obj.description = new LinkedList<>(list);
             }
         }
+
+        // update the objects map and the description map
         objects.put(id, obj);
         this.updateDescriptionMap(id, obj.description);
 	    return val;
@@ -89,15 +95,16 @@ public class MDS {
        or 0, if such an id did not exist.
     */
     public int delete(int id) {
+        int sum = 0;
         if(objects.containsKey(id)) {
             Object obj = objects.get(id);
-            int sum = 0;
             for(int i: obj.description) sum += i;
             objects.remove(id);
+
+            // remove the item for all the descriptions
             this.removeFromDescriptionMap(id, obj.description);
-            return sum;
         }
-	    return 0;
+        return sum;
     }
 
     /* 
@@ -138,6 +145,7 @@ public class MDS {
         int count = 0;
         if(descriptionMap.containsKey(n)) {
             for(int i: descriptionMap.get(n)) {
+                // check if the price of the item falls within the given range
                 if(objects.get(i).price >= low && objects.get(i).price <= high) count++;
             }
             return count;
@@ -158,7 +166,9 @@ public class MDS {
             for(int i: list) {
                 if(obj.description.contains(i)) {
                     sum += i;
+                    // remove the item from the description list
                     obj.description.remove(Integer.valueOf(i));
+                    // remove the item for this description from the description map
                     this.removeFromDescriptionMap(id, Collections.singletonList(i));
                 }
             }
