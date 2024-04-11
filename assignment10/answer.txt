@@ -1,0 +1,29 @@
+int worstFit(int[] size, int C) {
+    int n = size.length;
+    int numBins = 0;
+    PriorityQueue<Integer> q = new PriorityQueue<>();
+
+    for (int i = 0; i < n; i++) {
+        if (q.isEmpty()) {
+            // storing negative of remaining capacity to get the maximum value as priority queue is min heap by default
+            q.add(-(C - size[i]));
+            numBins++;
+        } else {
+            int worst = q.poll();
+
+            // can the new item be added to the highest remaining capacity bin?
+            if (worst + size[i] <= 0) {
+                q.add(worst + size[i]);
+            } else {
+                q.add(worst);
+                q.add(-(C - size[i]));
+                numBins++;
+            }
+        }
+    }
+
+    return numBins;
+}
+
+runtime complexity: O(n logn) // n for iterating through the array and logn for the heap operations
+space complexity: O(n)
